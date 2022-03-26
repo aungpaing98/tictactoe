@@ -68,7 +68,7 @@ int *get_available_moves(char game_state[9])
 {
 
     // Get available moves from current game state
-    static int available_moves[9];
+    int *available_moves = malloc(sizeof(int) * 9);
     int total_available_moves = 0;
     // iterate to find the available move
     for (int i = 0; i < 9; i++)
@@ -196,6 +196,13 @@ int minmax(char game_state[9], int maximize)
     char pre_player = players[!(maximize)];
     char current_player = players[maximize];
     int win_loss_draw = decide_game(game_state, pre_player);
+
+    // printf("\n\nMaximize : %d\n", maximize);
+    // printf("Current Player : %c\n", current_player);
+    // printf("Previous Player : %c\n", pre_player);
+    // print_game_state(game_state);
+
+
     if (win_loss_draw == 1)
     {
         // printf("\nWin : %c, %d\n", pre_player, scores[!(maximize)]);
@@ -204,42 +211,61 @@ int minmax(char game_state[9], int maximize)
     }
     else if (win_loss_draw == 0)
     {
-        // printf("\nDraw.");
+        // printf("\nDraw.\n");
         // print_game_state(game_state);
         return 0;
     }
     if (maximize == 1)
     {
-        int value = -100;
+        int value = -1000;
         int *available_moves = get_available_moves(game_state);
         int total_available_moves = get_total_available_moves(game_state);
         // print_game_state(game_state);
         // print_available_moves(available_moves, total_available_moves);
         for (int i = 0; i < total_available_moves; i++)
         {
-            char *tmp_game_state = copy_board(game_state);
-            update_game(tmp_game_state, available_moves[i], current_player);
+            // printf("\n\nCurrent Player In max : %c\n\n", current_player);
+            // printf("\n\nPrevious Game State:\n");
+            // print_game_state(game_state);
+
+            // char *tmp_game_state = copy_board(game_state);
+            // update_game(tmp_game_state, available_moves[i], current_player);
+            // value = max(value, minmax(tmp_game_state, 0));
+
+
+            update_game(game_state, available_moves[i], current_player);
+            value = max(value, minmax(game_state, 0));
+            update_game(game_state, available_moves[i], ' ');
+
+
             // printf("\n\nUpdated Game State:\n");
-            // print_game_state(tmp_game_state);
-            value = max(value, minmax(tmp_game_state, 0));
-            // printf("\nValues : \t%d", value);
+            // print_game_state(game_state);
         }
         return value;
     }
     else
     {
-        int value = 100;
+        int value = 1000;
         int *available_moves = get_available_moves(game_state);
         int total_available_moves = get_total_available_moves(game_state);
         // print_game_state(game_state);
         // print_available_moves(available_moves, total_available_moves);
         for (int i = 0; i < total_available_moves; i++)
         {
-            char *tmp_game_state = copy_board(game_state);
-            update_game(tmp_game_state, available_moves[i], current_player);
+            // printf("\n\nCurrent Player : %c\n\n", current_player);
+            // printf("\n\nPrevious Game State:\n");
+            // print_game_state(game_state);
+
+            // char *tmp_game_state = copy_board(game_state);
+            // update_game(tmp_game_state, available_moves[i], current_player);
+            // value = min(value, minmax(tmp_game_state, 1));
+
+            update_game(game_state, available_moves[i], current_player);
+            value = min(value, minmax(game_state, 1));
+            update_game(game_state, available_moves[i], ' ');
+
             // printf("\n\nUpdated Game State:\n");
-            // print_game_state(tmp_game_state);
-            value = min(value, minmax(tmp_game_state, 1));
+            // print_game_state(game_state);
         }
         return value;
     }
@@ -251,18 +277,28 @@ int minmax_move(char game_state[9], char player)
     int total_available_moves = get_total_available_moves(game_state);
     int scores[9];
     int moveId;
-    printf("Scores : ");
+    printf("\nScores :");
 
     for (int i = 0; i < total_available_moves; i++)
     {
+        // printf("\n\nAvailable Moves: ");
+        // print_available_moves(available_moves, total_available_moves);
+        // printf("Total available moves : %d", total_available_moves);
         char *tmp_game_state = copy_board(game_state);
+        // printf("\nIndex : %d, Move Id : %d\n",i,  available_moves[i]);
         update_game(tmp_game_state, available_moves[i], player);
 
         scores[i] = minmax(tmp_game_state, 0);
-        printf("%d ", scores[i]);
+        printf(" %d ", scores[i]);
+        // printf("\nOriginal game state\n");
+        // print_game_state(game_state);
+        // printf("\nupdated game State:\n");
+        // print_game_state(tmp_game_state);
     }
+    printf("\n");
     moveId = available_moves[argmax(scores, total_available_moves)];
     return moveId;
+    // return 0;
 }
 
 int make_move(char game_state[9], int available_moves[9], int total_available_moves)
