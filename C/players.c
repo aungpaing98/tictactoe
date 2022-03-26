@@ -37,7 +37,8 @@ int minmax(char game_state[9], int maximize)
     int win_loss_draw = decide_game(game_state, pre_player);
     if (win_loss_draw == 1)
     {
-        return scores[!(maximize)];
+        int score_ = scores[!(maximize)] * (get_total_available_moves(game_state) + 1);
+        return score_;
     }
     else if (win_loss_draw == 0)
     {
