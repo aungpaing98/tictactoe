@@ -10,7 +10,13 @@ def main():
     ai = AIPlayer()         # x
     players = [human, ai]
 
-    start_player = 0
+    print("O: Human\nX: AI\n")
+    query_msg = "How would you like to play?\nSelect one of the option below.\nHuman First\t: 0\nAI First\t: 1\n: "
+    try:
+        start_player = int(input(query_msg))
+    except:
+        start_player = 0
+
     current_player = players[start_player]
     total_moves = 0
     win_loss_draw = -1
@@ -26,6 +32,7 @@ def main():
         # Player decide move based on available moves
         moveId = current_player.makeMove(game)
         total_moves += 1
+        start_player += 1
         print(f"Make Move : {total_moves}, {current_player.name}, {moveId}")
 
         # Update game state with player input
@@ -41,7 +48,7 @@ def main():
             print(f"Win : {current_player}")
             return
 
-        current_player = players[total_moves%2]
+        current_player = players[start_player%2]
 
 
 if __name__ == '__main__':

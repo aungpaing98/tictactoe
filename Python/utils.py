@@ -19,7 +19,7 @@ def minmax(game, maximize):
 
     # Base case
     if win_loss_draw==1:
-        return scores[not maximize]
+        return scores[not maximize] * (len(game.getAvailableMoves()) + 1)
     elif win_loss_draw==0:
         return 0
 
@@ -27,19 +27,18 @@ def minmax(game, maximize):
         value = -1000
         available_moves = game.getAvailableMoves()
         for move in available_moves:
-            # Implement this
-            tmp_game = game.copy()
-            tmp_game.updateBoard(move, current_player)
-            value = max(value, minmax(tmp_game, False))
+            game.updateBoard(move, current_player)
+            value = max(value, minmax(game, False))
+            game.updateBoard(move, ' ')
         return value
 
     else:
         value = 1000
         available_moves = game.getAvailableMoves()
         for move in available_moves:
-            tmp_game = game.copy()
-            tmp_game.updateBoard(move, current_player)
-            value = min(value, minmax(tmp_game, True))
+            game.updateBoard(move, current_player)
+            value = min(value, minmax(game, True))
+            game.updateBoard(move, ' ')
         return value
 
 
@@ -47,9 +46,9 @@ def minmax_move(game, name):
     available_moves = game.getAvailableMoves()
     scores = []
     for move in available_moves:
-        tmp_game = game.copy()
-        tmp_game.updateBoard(move, name)
-        score = minmax(tmp_game, False)
+        game.updateBoard(move, name)
+        score = minmax(game, False)
+        game.updateBoard(move, ' ')
         scores.append(score)
 
     print("Scores : \t", scores)
