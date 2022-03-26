@@ -1,5 +1,6 @@
 import random
 
+
 def argmax(arr):
     ret = 0
     for i in range(1, len(arr)):
@@ -14,15 +15,16 @@ def minmax(game, maximize):
     scores = [-1, 1]
     pre_player = players[not maximize]
     current_player = players[maximize]
+    win_loss_draw = game.decideGame(pre_player)
 
     # Base case
-    if game.decideGame(pre_player)==1:
+    if win_loss_draw==1:
         return scores[not maximize]
-    elif game.decideGame(pre_player)==0:
+    elif win_loss_draw==0:
         return 0
 
     if maximize:
-        value = -10000
+        value = -1000
         available_moves = game.getAvailableMoves()
         for move in available_moves:
             # Implement this
@@ -32,7 +34,7 @@ def minmax(game, maximize):
         return value
 
     else:
-        value = 10000
+        value = 1000
         available_moves = game.getAvailableMoves()
         for move in available_moves:
             tmp_game = game.copy()
@@ -49,6 +51,8 @@ def minmax_move(game, name):
         tmp_game.updateBoard(move, name)
         score = minmax(tmp_game, False)
         scores.append(score)
+
+    print("Scores : \t", scores)
     moveId = available_moves[argmax(scores)]
     return moveId
 
