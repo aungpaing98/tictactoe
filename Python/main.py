@@ -1,10 +1,10 @@
-from board import Board
+from board import TicTacToe
 from players import HumanPlayer, AIPlayer
 
 
 def main():
     # Init Game
-    game = Board()
+    game = TicTacToe()
     # Init Players
     human = HumanPlayer()   # o
     ai = AIPlayer()         # x

@@ -1,5 +1,28 @@
 class Board:
     def __init__(self):
+        pass
+
+    def init_board(self):
+        pass
+
+    def updateBoard(self, moveId, player):
+        pass
+
+    def decideGame(self, player):
+        pass
+
+    def getAvailableMoves(self):
+        pass
+
+    def printState(self):
+        pass
+
+    def copy(self):
+        pass
+
+
+class TicTacToe(Board):
+    def __init__(self):
         self.init_board()
     
     def init_board(self):
