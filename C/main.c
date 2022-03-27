@@ -39,8 +39,8 @@ int main(void)
         print_available_moves(available_moves, total_available_moves);
 
         // Player decide move based on available moves
-        // 0: Random move, 1: User Input, 2: MinMax
-        if (current_player == 'x') mode = 2;
+        // 0: Random move, 1: User Input, 2: MinMax, 3: MinMax Alpha Beta
+        if (current_player == 'x') mode = 3;
         else mode = 1;
 
         move_id = make_move(game_state, current_player, mode);

@@ -8,9 +8,10 @@
 // 0: Random move
 // 1: User Input Move
 // 2: MinMax Move
+// 3: MinMax Alpha Beta
 
 // Prototypes
-int *get_minmax_score(char game_state[9], char player);
+int *get_minmax_score(char game_state[9], char player, int alpha_beta);
 // End of prototypes
 
 int random_move(char game_state[9], char player)
@@ -29,7 +30,7 @@ int user_move(char game_state[9], char player)
     int total_available_moves = get_total_available_moves(game_state);
     int move_id_;
 
-    int *scores = get_minmax_score(game_state, player);
+    int *scores = get_minmax_score(game_state, player, 1);
     // Print Scores
     printf("Would you like to get suggesstion from minmax algo?");
     printf("\nScores \t\t: ");
@@ -92,7 +93,60 @@ int minmax(char game_state[9], int maximize)
     }
 }
 
-int *get_minmax_score(char game_state[9], char player)
+int minmax_alpha_beta(char game_state[9], int maximize, int alpha, int beta)
+{
+    // 'o' : Human, 'x' : AI
+    char players[2] = {'o', 'x'};
+    int scores[2] = {-1, 1};
+    char pre_player = players[!(maximize)];
+    char current_player = players[maximize];
+    int win_loss_draw = decide_game(game_state, pre_player);
+    if (win_loss_draw == 1)
+    {
+        int score_ = scores[!(maximize)] * (get_total_available_moves(game_state) + 1);
+        return score_;
+    }
+    else if (win_loss_draw == 0)
+    {
+        return 0;
+    }
+    if (maximize == 1)
+    {
+        int value = -1000;
+        int *available_moves = get_available_moves(game_state);
+        int total_available_moves = get_total_available_moves(game_state);
+        for (int i = 0; i < total_available_moves; i++)
+        {
+            update_game(game_state, available_moves[i], current_player);
+            value = max(value, minmax_alpha_beta(game_state, 0, alpha, beta));
+            update_game(game_state, available_moves[i], ' ');
+            alpha = max(alpha, value);
+            if (beta <= alpha){
+                break;
+            }
+        }
+        return value;
+    }
+    else
+    {
+        int value = 1000;
+        int *available_moves = get_available_moves(game_state);
+        int total_available_moves = get_total_available_moves(game_state);
+        for (int i = 0; i < total_available_moves; i++)
+        {
+            update_game(game_state, available_moves[i], current_player);
+            value = min(value, minmax_alpha_beta(game_state, 1, alpha, beta));
+            update_game(game_state, available_moves[i], ' ');
+            beta = min(beta, value);
+            if (beta <= alpha){
+                break;
+            }
+        }
+        return value;
+    }
+}
+
+int *get_minmax_score(char game_state[9], char player, int alpha_beta)
 {
     int *available_moves = get_available_moves(game_state);
     int total_available_moves = get_total_available_moves(game_state);
@@ -100,26 +154,32 @@ int *get_minmax_score(char game_state[9], char player)
     for (int i = 0; i < total_available_moves; i++)
     {
         update_game(game_state, available_moves[i], player);
-        scores[i] = minmax(game_state, player == 'o');
+        if (alpha_beta){
+            scores[i] = minmax_alpha_beta(game_state, player == 'o', -1000, 1000);
+        }
+        else{
+            scores[i] = minmax(game_state, player == 'o');
+        }
         update_game(game_state, available_moves[i], ' ');
     }
     return scores;
 }
 
-int minmax_move(char game_state[9], char player)
+int minmax_move(char game_state[9], char player, int alpha_beta)
 {
-    int *scores = get_minmax_score(game_state, player);
+    int moveId;
+    int *available_moves = get_available_moves(game_state);
+    int total_available_moves = get_total_available_moves(game_state);
+
+    int *scores = get_minmax_score(game_state, player, alpha_beta);
     // Print Scores
     printf("\nScores : ");
-    for (int i = 0; i < 9; i++)
+    for (int i = 0; i < total_available_moves; i++)
     {
         printf("%d ", scores[i]);
     }
     printf("\n");
 
-    int moveId;
-    int *available_moves = get_available_moves(game_state);
-    int total_available_moves = get_total_available_moves(game_state);
 
     moveId = available_moves[argmax(scores, total_available_moves)];
     return moveId;
@@ -137,7 +197,10 @@ int make_move(char game_state[9], char player, int mode)
         moveId = user_move(game_state, player);
         break;
     case 2:
-        moveId = minmax_move(game_state, player);
+        moveId = minmax_move(game_state, player, 0);
+        break;
+    case 3:
+        moveId = minmax_move(game_state, player, 1);
         break;
 
     default:

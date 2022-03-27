@@ -26,5 +26,5 @@ class AIPlayer(Player):
         super().__init__(name)
 
     def makeMove(self, game):
-        moveId = minmax_move(game, self.name)
+        moveId = minmax_move(game, self.name, alpha_beta=1)
         return moveId
