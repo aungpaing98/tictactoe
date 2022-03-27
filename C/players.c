@@ -9,16 +9,36 @@
 // 1: User Input Move
 // 2: MinMax Move
 
-int random_move(int available_moves[], int total_available_moves)
+// Prototypes
+int *get_minmax_score(char game_state[9], char player);
+// End of prototypes
+
+int random_move(char game_state[9], char player)
 {
+    int *available_moves = get_available_moves(game_state);
+    int total_available_moves = get_total_available_moves(game_state);
     srand(time(0));
     int random_index = (rand() % total_available_moves);
     return available_moves[random_index];
 }
 
-int user_move(int available_moves[], int total_available_moves)
+int user_move(char game_state[9], char player)
 {
+
+    int *available_moves = get_available_moves(game_state);
+    int total_available_moves = get_total_available_moves(game_state);
     int move_id_;
+
+    int *scores = get_minmax_score(game_state, player);
+    // Print Scores
+    printf("Would you like to get suggesstion from minmax algo?");
+    printf("\nScores \t\t: ");
+    for (int i = 0; i < total_available_moves; i++)
+    {
+        printf("%d ", -1 * scores[i]);
+    }
+    printf("\n");
+
     do
     {
         printf("Enter your next move:  ");
@@ -72,42 +92,56 @@ int minmax(char game_state[9], int maximize)
     }
 }
 
-int minmax_move(char game_state[9], char player)
+int *get_minmax_score(char game_state[9], char player)
 {
     int *available_moves = get_available_moves(game_state);
     int total_available_moves = get_total_available_moves(game_state);
-    int scores[9];
-    int moveId;
-    printf("\nScores :");
+    int *scores = malloc(sizeof(int) * 9);
     for (int i = 0; i < total_available_moves; i++)
     {
         update_game(game_state, available_moves[i], player);
-        scores[i] = minmax(game_state, 0);
+        scores[i] = minmax(game_state, player == 'o');
         update_game(game_state, available_moves[i], ' ');
-        printf(" %d ", scores[i]);
+    }
+    return scores;
+}
+
+int minmax_move(char game_state[9], char player)
+{
+    int *scores = get_minmax_score(game_state, player);
+    // Print Scores
+    printf("\nScores : ");
+    for (int i = 0; i < 9; i++)
+    {
+        printf("%d ", scores[i]);
     }
     printf("\n");
+
+    int moveId;
+    int *available_moves = get_available_moves(game_state);
+    int total_available_moves = get_total_available_moves(game_state);
+
     moveId = available_moves[argmax(scores, total_available_moves)];
     return moveId;
 }
 
-int make_move(char game_state[9], int available_moves[9], int total_available_moves, char player, int mode)
+int make_move(char game_state[9], char player, int mode)
 {
     int moveId;
     switch (mode)
     {
     case 0:
-        moveId = random_move(available_moves, total_available_moves);
+        moveId = random_move(game_state, player);
         break;
     case 1:
-        moveId = user_move(available_moves, total_available_moves);
+        moveId = user_move(game_state, player);
         break;
     case 2:
         moveId = minmax_move(game_state, player);
         break;
-    
+
     default:
-        moveId = random_move(available_moves, total_available_moves);
+        moveId = random_move(game_state, player);
         break;
     }
     return moveId;

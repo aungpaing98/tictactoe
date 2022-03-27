@@ -43,7 +43,7 @@ int main(void)
         if (current_player == 'x') mode = 2;
         else mode = 1;
 
-        move_id = make_move(game_state, available_moves, total_available_moves, current_player, mode);
+        move_id = make_move(game_state, current_player, mode);
         total_moves++;
         start_player++;
         // Display player move
