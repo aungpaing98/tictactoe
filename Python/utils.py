@@ -42,16 +42,24 @@ def minmax(game, maximize):
         return value
 
 
-def minmax_move(game, name):
+def get_minmax_score(game, name):
     available_moves = game.getAvailableMoves()
     scores = []
     for move in available_moves:
         game.updateBoard(move, name)
-        score = minmax(game, False)
+        score = minmax(game, name=='o')
         game.updateBoard(move, ' ')
         scores.append(score)
 
+    # print("Scores : \t", scores)
+    return scores
+
+
+def minmax_move(game, name):
+    scores = get_minmax_score(game, name)
     print("Scores : \t", scores)
+
+    available_moves = game.getAvailableMoves()
     moveId = available_moves[argmax(scores)]
     return moveId
 
@@ -60,8 +68,14 @@ def random_move(available_moves):
     return random.choice(available_moves)
 
 
-def user_move(available_moves):
+def user_move(game, name):
+    scores = get_minmax_score(game, name)
+    scores = [-1 * s for s in scores]
+    print("You might want to conside this from minmax :")
+    print("Scores : \t", scores)
+
     moveId = -1
+    available_moves = game.getAvailableMoves()
     try:
         while (moveId not in available_moves):
             moveId = int(input("Enter your move :"))

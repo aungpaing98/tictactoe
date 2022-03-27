@@ -17,7 +17,7 @@ class HumanPlayer(Player):
         super().__init__(name)
 
     def makeMove(self, game):
-        moveId = user_move(game.getAvailableMoves())
+        moveId = user_move(game, self.name)
         return moveId
 
 
