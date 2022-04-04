@@ -135,9 +135,5 @@ const get_user_input = () => {
   });
 };
 
-const user_move = (game, name) => {
-  let p = get_user_input()
-  console.log("Promise : ", p);
-}
 
-export { argmax, get_minmax_score, minmax_move, random_move, user_move };
+export { argmax, get_minmax_score, minmax_move, random_move };

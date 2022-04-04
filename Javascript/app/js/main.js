@@ -26,7 +26,12 @@ nextRound.addEventListener("click", (e) => {
 // Control + View
 const handleFinish = (gameResult) => {
   gameTag.classList.add("win");
-  let textContext = gameResult;
+  let text = "Draw"
+
+  if (gameResult==1){
+    text = `Win : ${current_player.name}`
+  }
+  let textContext = text;
   let finishElement = document.createElement("h1");
   finishElement.textContent = textContext;
   winner.appendChild(finishElement);
@@ -37,6 +42,7 @@ const clickHandler = (event) => {
   let moveId = event.target.id;
   game.updateBoard(moveId, current_player.name);
   cells[moveId].classList.add(current_player.name);
+  cells[moveId].classList.remove("o_hover");
   total_moves += 1;
 
   let win_loss_draw = game.decideGame(current_player.name);
@@ -46,10 +52,10 @@ const clickHandler = (event) => {
   current_player = players[total_moves % 2];
 };
 
-// Control + Model  
+// Control + Model
 const getAIMove = (event) => {
   if (current_player.name == "x") {
-    let moveId = ai.makeMove(game);
+    let moveId = ai.makeMove(game, 2);
     cells[moveId].click();
   }
 };
