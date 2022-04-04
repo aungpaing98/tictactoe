@@ -17,6 +17,8 @@ const gameTag = document.querySelector(".game");
 const container = document.querySelector(".container");
 const winner = document.querySelector(".winner");
 const nextRound = document.querySelector(".next_round");
+const algorithm = document.querySelector("#algorithm");
+
 
 // Restart game (Control)
 nextRound.addEventListener("click", (e) => {
@@ -27,7 +29,7 @@ nextRound.addEventListener("click", (e) => {
 const handleFinish = (gameResult) => {
   gameTag.classList.add("win");
   let text = "Draw"
-
+  
   if (gameResult==1){
     text = `Win : ${current_player.name}`
   }
@@ -44,7 +46,7 @@ const clickHandler = (event) => {
   cells[moveId].classList.add(current_player.name);
   cells[moveId].classList.remove("o_hover");
   total_moves += 1;
-
+  
   let win_loss_draw = game.decideGame(current_player.name);
   if (win_loss_draw != -1) {
     handleFinish(win_loss_draw);
@@ -54,8 +56,9 @@ const clickHandler = (event) => {
 
 // Control + Model
 const getAIMove = (event) => {
+  let mode = algorithm.options[algorithm.selectedIndex].value
   if (current_player.name == "x") {
-    let moveId = ai.makeMove(game, 2);
+    let moveId = ai.makeMove(game, mode);
     cells[moveId].click();
   }
 };
