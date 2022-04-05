@@ -15,7 +15,7 @@ let game = new TicTacToe();
 const cells = document.querySelectorAll(".cell");
 const gameTag = document.querySelector(".game");
 const container = document.querySelector(".container");
-const winner = document.querySelector(".winner");
+const winner = document.querySelector(".winner_message");
 const nextRound = document.querySelector(".next_round");
 const algorithm = document.querySelector("#algorithm");
 
@@ -36,7 +36,8 @@ const handleFinish = (gameResult) => {
   let textContext = text;
   let finishElement = document.createElement("h1");
   finishElement.textContent = textContext;
-  winner.appendChild(finishElement);
+  // winner.appendChild(finishElement);
+  winner.insertBefore(finishElement, winner.firstChild)
 };
 
 // Control + View

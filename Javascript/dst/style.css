@@ -3,19 +3,32 @@
 *::after {
   box-sizing: border-box;
   font-family: cursive;
+  padding: 0;
+  margin: 0;
 }
 
 body {
   padding: 0;
   margin: 0;
-  background-color: #040441;
+  background-color: rgb(4, 4, 65);
   color: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .header {
   display: flex;
   justify-content: center;
   align-items: center;
+  min-width: 40rem;
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 1.2rem 0;
+  border-radius: 0 0 2rem 2rem;
+}
+.header > .message > * {
+  margin-bottom: 1rem;
 }
 
 .info {
@@ -68,11 +81,21 @@ body {
   justify-content: center;
   align-items: center;
 }
-.winner > h1 {
-  color: white;
-  font-size: 3rem;
+.winner > .winner_message {
+  height: 30vh;
+  min-width: 20rem;
+  background-color: rgba(0, 0, 0, 0.9);
+  border-radius: 1.2rem;
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: column;
+  align-items: center;
 }
-.winner > button {
+.winner > .winner_message > h1 {
+  color: white;
+  font-size: 2.2rem;
+}
+.winner > .winner_message > button {
   height: 50px;
   width: 150px;
   border: 0px;
@@ -100,7 +123,7 @@ body {
   height: 50px;
   width: 50px;
   border-radius: 50%;
-  background-color: #040441;
+  background-color: rgb(4, 4, 65);
   position: absolute;
   top: 25px;
   left: 25px;
@@ -164,7 +187,7 @@ body {
   height: 50px;
   width: 50px;
   border-radius: 50%;
-  background-color: #040441;
+  background-color: rgb(4, 4, 65);
   position: absolute;
   top: 25px;
   left: 25px;

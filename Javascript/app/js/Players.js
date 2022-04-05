@@ -30,6 +30,7 @@ class AIPlayer extends Player {
     // 1: User input
     // 2: Minmax algorithm
     // 3: Minmax Alpha Beta algorithm
+    console.log("Mode : ", mode);
     if (mode == 0) {
       return random_move(game, this.name);
     } else if (mode == 1) {
@@ -37,7 +38,7 @@ class AIPlayer extends Player {
     } else if (mode == 2) {
       return minmax_move(game, this.name, 0);
     } else {
-      return minmax_move(game, this.game, 1);
+      return minmax_move(game, this.name, 1);
     }
   }
 }
