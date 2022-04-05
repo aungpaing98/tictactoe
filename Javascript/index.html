@@ -1,46 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./dst/style.css" />
-    <title>Tic Tac Toe</title>
 
-    <script src="./app/js/main.js" type="module" defer></script>
-    <!-- <script src="./app/js/test.js" type="module" defer></script> -->
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="./dst/style.css" />
+  <title>Tic Tac Toe</title>
 
-  <body>
-    <div class="header">
-      <div class="message">
-        <h1>Welcome to TicTacToe</h1>
+  <!-- <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik+Puddles&display=swap" rel="stylesheet"> -->
+  <script src="./app/js/main.js" type="module" defer></script>
+  <!-- <script src="./app/js/test.js" type="module" defer></script> -->
+</head>
+
+<body>
+  <div class="header">
+    <div class="message">
+      <h1>Welcome to TicTacToe</h1>
+      <div class="info">
         <p>O : Human</p>
         <p>X : AI</p>
-        <label for="algorithm">Choose an algorithm : </label>
-        <select name="algorithm" id="algorithm">
-          <option value="0">Random</option>
-          <option value="2">MinMax</option>
-          <option value="3">MinMax_Alpha_Beta</option>
-        </select>
       </div>
+      <label for="algorithm">Choose an algorithm : </label>
+      <select name="algorithm" id="algorithm">
+        <option value="0">Random</option>
+        <option value="2">MinMax</option>
+        <option value="3">MinMax_Alpha_Beta</option>
+      </select>
     </div>
-    <div class="game">
-      <div class="container grid grid-jc-sa grid-ac-c">
-        <div class="cell o_hover" id="0"></div>
-        <div class="cell o_hover" id="1"></div>
-        <div class="cell o_hover" id="2"></div>
-        <div class="cell o_hover" id="3"></div>
-        <div class="cell o_hover" id="4"></div>
-        <div class="cell o_hover" id="5"></div>
-        <div class="cell o_hover" id="6"></div>
-        <div class="cell o_hover" id="7"></div>
-        <div class="cell o_hover" id="8"></div>
-      </div>
+  </div>
+  <div class="game">
+    <div class="container grid grid-jc-sa grid-ac-c">
+      <div class="cell o_hover" id="0"></div>
+      <div class="cell o_hover" id="1"></div>
+      <div class="cell o_hover" id="2"></div>
+      <div class="cell o_hover" id="3"></div>
+      <div class="cell o_hover" id="4"></div>
+      <div class="cell o_hover" id="5"></div>
+      <div class="cell o_hover" id="6"></div>
+      <div class="cell o_hover" id="7"></div>
+      <div class="cell o_hover" id="8"></div>
+    </div>
 
-      <div class="winner">
-        <button class="next_round">Next Round</button>
-      </div>
+    <div class="winner">
+      <button class="next_round">Next Round</button>
     </div>
-  </body>
+  </div>
+</body>
+
 </html>
