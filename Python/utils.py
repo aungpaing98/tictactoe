@@ -30,7 +30,6 @@ def minmax_alpha_beta(game, maximize, alpha, beta):
             game.updateBoard(move, current_player)
             val = minmax_alpha_beta(game, False, alpha, beta)
             game.updateBoard(move, ' ')
-
             value = max(value, val)
             alpha = max(alpha, value)
             if beta <= alpha:
@@ -109,7 +108,8 @@ def minmax_move(game, name, alpha_beta):
     return moveId
 
 
-def random_move(available_moves):
+def random_move(game, name):
+    available_moves = game.getAvailableMoves()
     return random.choice(available_moves)
 
 
